@@ -1,0 +1,483 @@
+{
+  "schema_version": 23,
+  "files": {
+    "control.csv": "One row for every controller update; only existing controller inputs and internal diagnostics.",
+    "jsbsim_truth.csv": "Passive JSBSim <output type=SOCKET> ground truth. Never used by control.",
+    "telemetry.csv": "Raw asynchronous receive stream with payload_json.",
+    "events.csv": "Recorder/controller state transitions.",
+    "config_history.jsonl": "Resolved parameter revisions.",
+    "meta.json": "Session provenance and recorder configuration.",
+    "summary.json": "Session-level diagnostics including simulator target miss distance and hit state."
+  },
+  "timebase": "control_dt_s is local monotonic callback time; control_vehicle_dt_s and timebase_* are derived from MAVLink ATTITUDE.time_boot_ms. JSBSim truth time remains separate and never feeds control.",
+  "jsbsim_property_map": {
+    "truth_sim_time_s": {
+      "property": null,
+      "caption": "Time",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_roll_deg": {
+      "property": "attitude/phi-deg",
+      "caption": "attitude/phi-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_pitch_deg": {
+      "property": "attitude/theta-deg",
+      "caption": "attitude/theta-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_heading_deg": {
+      "property": "attitude/psi-deg",
+      "caption": "attitude/psi-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_p_deg_s": {
+      "property": "velocities/p-rad_sec",
+      "caption": "velocities/p-rad_sec",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_q_deg_s": {
+      "property": "velocities/q-rad_sec",
+      "caption": "velocities/q-rad_sec",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_r_deg_s": {
+      "property": "velocities/r-rad_sec",
+      "caption": "velocities/r-rad_sec",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_pdot_deg_s2": {
+      "property": "accelerations/pdot-rad_sec2",
+      "caption": "accelerations/pdot-rad_sec2",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_qdot_deg_s2": {
+      "property": "accelerations/qdot-rad_sec2",
+      "caption": "accelerations/qdot-rad_sec2",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_rdot_deg_s2": {
+      "property": "accelerations/rdot-rad_sec2",
+      "caption": "accelerations/rdot-rad_sec2",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_v_north_mps": {
+      "property": "velocities/v-north-fps",
+      "caption": "velocities/v-north-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_v_east_mps": {
+      "property": "velocities/v-east-fps",
+      "caption": "velocities/v-east-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_v_down_mps": {
+      "property": "velocities/v-down-fps",
+      "caption": "velocities/v-down-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_ground_speed_mps": {
+      "property": "velocities/vg-fps",
+      "caption": "velocities/vg-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_climb_rate_mps": {
+      "property": "velocities/h-dot-fps",
+      "caption": "velocities/h-dot-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_true_airspeed_mps": {
+      "property": "velocities/vtrue-fps",
+      "caption": "velocities/vtrue-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_gamma_deg": {
+      "property": "flight-path/gamma-deg",
+      "caption": "flight-path/gamma-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_ground_track_deg": {
+      "property": "flight-path/psi-gt-rad",
+      "caption": "flight-path/psi-gt-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_pos_north_m": {
+      "property": "position/from-start-neu-n-ft",
+      "caption": "position/from-start-neu-n-ft",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_pos_east_m": {
+      "property": "position/from-start-neu-e-ft",
+      "caption": "position/from-start-neu-e-ft",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_pos_up_m": {
+      "property": "position/from-start-neu-u-ft",
+      "caption": "position/from-start-neu-u-ft",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_latitude_deg": {
+      "property": "position/lat-geod-deg",
+      "caption": "position/lat-geod-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_longitude_deg": {
+      "property": "position/long-gc-deg",
+      "caption": "position/long-gc-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_geod_altitude_m": {
+      "property": "position/geod-alt-ft",
+      "caption": "position/geod-alt-ft",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_ic_latitude_deg": {
+      "property": "ic/lat-geod-deg",
+      "caption": "ic/lat-geod-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_ic_longitude_deg": {
+      "property": "ic/long-gc-deg",
+      "caption": "ic/long-gc-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_ic_geod_altitude_m": {
+      "property": "ic/geod-alt-ft",
+      "caption": "ic/geod-alt-ft",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_u_aero_mps": {
+      "property": "velocities/u-aero-fps",
+      "caption": "velocities/u-aero-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_v_aero_mps": {
+      "property": "velocities/v-aero-fps",
+      "caption": "velocities/v-aero-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_w_aero_mps": {
+      "property": "velocities/w-aero-fps",
+      "caption": "velocities/w-aero-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_alpha_deg": {
+      "property": "aero/alpha-deg",
+      "caption": "aero/alpha-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_beta_deg": {
+      "property": "aero/beta-deg",
+      "caption": "aero/beta-deg",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_alpha_dot_deg_s": {
+      "property": "aero/alphadot-deg_sec",
+      "caption": "aero/alphadot-deg_sec",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_beta_dot_deg_s": {
+      "property": "aero/betadot-deg_sec",
+      "caption": "aero/betadot-deg_sec",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_qbar_pa": {
+      "property": "aero/qbar-psf",
+      "caption": "aero/qbar-psf",
+      "scale": 47.88025898033584,
+      "offset": 0.0
+    },
+    "truth_wind_north_mps": {
+      "property": "atmosphere/total-wind-north-fps",
+      "caption": "atmosphere/total-wind-north-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_wind_east_mps": {
+      "property": "atmosphere/total-wind-east-fps",
+      "caption": "atmosphere/total-wind-east-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_wind_down_mps": {
+      "property": "atmosphere/total-wind-down-fps",
+      "caption": "atmosphere/total-wind-down-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_gust_north_mps": {
+      "property": "atmosphere/gust-north-fps",
+      "caption": "atmosphere/gust-north-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_gust_east_mps": {
+      "property": "atmosphere/gust-east-fps",
+      "caption": "atmosphere/gust-east-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_gust_down_mps": {
+      "property": "atmosphere/gust-down-fps",
+      "caption": "atmosphere/gust-down-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_turb_north_mps": {
+      "property": "atmosphere/turb-north-fps",
+      "caption": "atmosphere/turb-north-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_turb_east_mps": {
+      "property": "atmosphere/turb-east-fps",
+      "caption": "atmosphere/turb-east-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_turb_down_mps": {
+      "property": "atmosphere/turb-down-fps",
+      "caption": "atmosphere/turb-down-fps",
+      "scale": 0.3048,
+      "offset": 0.0
+    },
+    "truth_nx": {
+      "property": "accelerations/Nx",
+      "caption": "accelerations/Nx",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_ny": {
+      "property": "accelerations/Ny",
+      "caption": "accelerations/Ny",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_nz": {
+      "property": "accelerations/Nz",
+      "caption": "accelerations/Nz",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_aero_force_x_n": {
+      "property": "forces/fbx-aero-lbs",
+      "caption": "forces/fbx-aero-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_aero_force_y_n": {
+      "property": "forces/fby-aero-lbs",
+      "caption": "forces/fby-aero-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_aero_force_z_n": {
+      "property": "forces/fbz-aero-lbs",
+      "caption": "forces/fbz-aero-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_total_force_x_n": {
+      "property": "forces/fbx-total-lbs",
+      "caption": "forces/fbx-total-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_total_force_y_n": {
+      "property": "forces/fby-total-lbs",
+      "caption": "forces/fby-total-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_total_force_z_n": {
+      "property": "forces/fbz-total-lbs",
+      "caption": "forces/fbz-total-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_prop_force_x_n": {
+      "property": "forces/fbx-prop-lbs",
+      "caption": "forces/fbx-prop-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_prop_force_y_n": {
+      "property": "forces/fby-prop-lbs",
+      "caption": "forces/fby-prop-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_prop_force_z_n": {
+      "property": "forces/fbz-prop-lbs",
+      "caption": "forces/fbz-prop-lbs",
+      "scale": 4.4482216152605,
+      "offset": 0.0
+    },
+    "truth_aero_roll_moment_nm": {
+      "property": "moments/l-aero-lbsft",
+      "caption": "moments/l-aero-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_aero_pitch_moment_nm": {
+      "property": "moments/m-aero-lbsft",
+      "caption": "moments/m-aero-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_aero_yaw_moment_nm": {
+      "property": "moments/n-aero-lbsft",
+      "caption": "moments/n-aero-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_total_roll_moment_nm": {
+      "property": "moments/l-total-lbsft",
+      "caption": "moments/l-total-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_total_pitch_moment_nm": {
+      "property": "moments/m-total-lbsft",
+      "caption": "moments/m-total-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_total_yaw_moment_nm": {
+      "property": "moments/n-total-lbsft",
+      "caption": "moments/n-total-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_prop_roll_moment_nm": {
+      "property": "moments/l-prop-lbsft",
+      "caption": "moments/l-prop-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_prop_pitch_moment_nm": {
+      "property": "moments/m-prop-lbsft",
+      "caption": "moments/m-prop-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_prop_yaw_moment_nm": {
+      "property": "moments/n-prop-lbsft",
+      "caption": "moments/n-prop-lbsft",
+      "scale": 1.3558179483314003,
+      "offset": 0.0
+    },
+    "truth_throttle_cmd_norm": {
+      "property": "fcs/throttle-cmd-norm[0]",
+      "caption": "fcs/throttle-cmd-norm[0]",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_throttle_pos_norm": {
+      "property": "fcs/throttle-pos-norm[0]",
+      "caption": "fcs/throttle-pos-norm[0]",
+      "scale": 1.0,
+      "offset": 0.0
+    },
+    "truth_servo01_deg": {
+      "property": "fcs/servo1-pos-rad",
+      "caption": "fcs/servo1-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_servo02_deg": {
+      "property": "fcs/servo2-pos-rad",
+      "caption": "fcs/servo2-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_servo04_deg": {
+      "property": "fcs/servo4-pos-rad",
+      "caption": "fcs/servo4-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_servo05_deg": {
+      "property": "fcs/servo5-pos-rad",
+      "caption": "fcs/servo5-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_servo06_deg": {
+      "property": "fcs/servo6-pos-rad",
+      "caption": "fcs/servo6-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    },
+    "truth_servo07_deg": {
+      "property": "fcs/servo7-pos-rad",
+      "caption": "fcs/servo7-pos-rad",
+      "scale": 57.29577951308232,
+      "offset": 0.0
+    }
+  },
+  "target_frame": "Preferred WGS-84 geodetic lat/lon; converted inside recorder to JSBSim from-start NEU. Simulator truth only.",
+  "servo_mapping": {
+    "elevon_right": 1,
+    "elevon_left": 2,
+    "rudder_upper": 4,
+    "rudder_lower": 5,
+    "canard_left": 6,
+    "canard_right": 7
+  },
+  "target_config": {
+    "target_enabled": true,
+    "target_frame": "wgs84_geodetic",
+    "target_latitude_deg": 46.94944357,
+    "target_longitude_deg": 39.34725978,
+    "target_altitude_m": 3.2,
+    "target_accuracy_mode": "horizontal",
+    "target_north_m": null,
+    "target_east_m": null,
+    "target_up_m": null,
+    "target_hit_radius_m": 2.0,
+    "impact_point_enabled": false,
+    "impact_point_body_x_m": 0.0,
+    "impact_point_body_y_m": 0.0,
+    "impact_point_body_z_m": 0.0,
+    "optimization_primary_metric_requested": "target_contact_horizontal_m",
+    "target_validate_bearing": true,
+    "target_bearing_warning_deg": 10.0,
+    "target_validation_confirm_s": 1.0,
+    "target_validation_min_distance_m": 10.0
+  }
+}
